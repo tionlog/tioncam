@@ -9,7 +9,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <canvas id="waterScene" aria-label="손끝에 반응해 물결처럼 왜곡되는 카메라 화면"></canvas>
 
     <header class="bubble-nav">
-      <a class="home-bubble" href="/" aria-label="홈으로 이동" title="홈으로 이동">
+      <a class="home-bubble" href="${import.meta.env.BASE_URL}" aria-label="홈으로 이동" title="홈으로 이동">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.7 12 3.8l8.5 6.9v8.6a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7v-8.6Z"/><path d="M9.2 21v-6.8h5.6V21"/></svg>
       </a>
       <nav class="bubble-tabs" aria-label="3주차 인터랙션 목록">
@@ -125,6 +125,7 @@ type Mosquito = Point & {
   groundY: number
 }
 type BloodDrop = Point & { vx: number; vy: number; radius: number; life: number; maxLife: number }
+type ClapBurst = Point & { startedAt: number }
 type MosquitoFlick = Point & { present: boolean; vx: number; vy: number; lastUpdatedAt: number; lastFlickAt: number }
 type VideoCrop = { sx: number; sy: number; sw: number; sh: number; videoWidth: number; videoHeight: number }
 type VideoWithFrameCallback = HTMLVideoElement & {
@@ -154,14 +155,14 @@ const trackingStatusText = trackingStatus.querySelector('span')!
 const toast = document.querySelector<HTMLDivElement>('#toast')!
 
 const lemonImage = new Image()
-lemonImage.src = '/3week/lemon.png'
+lemonImage.src = `${import.meta.env.BASE_URL}3week/lemon.png`
 const silverBalloonImage = new Image()
-silverBalloonImage.src = '/3week/silver bll.png'
+silverBalloonImage.src = `${import.meta.env.BASE_URL}3week/silver bll.png`
 silverBalloonImage.addEventListener('load', () => {
   // Rebuild the lightweight sprite cache once the reference texture is ready.
   balloons.forEach((balloon) => { balloon.sprite = undefined })
 })
-const waterTouchSound = new Audio('/3week/watertouch.mp3')
+const waterTouchSound = new Audio(`${import.meta.env.BASE_URL}3week/watertouch.mp3`)
 waterTouchSound.preload = 'auto'
 
 const leftHand: HandState = { x: 0, y: 0, present: false, fist: false }
@@ -175,6 +176,7 @@ const balloons: Balloon[] = []
 const balloonParticles: BalloonParticle[] = []
 const mosquitoes: Mosquito[] = []
 const bloodDrops: BloodDrop[] = []
+const clapBursts: ClapBurst[] = []
 const balloonGestures: Record<'left' | 'right', BalloonGesture> = {
   left: {
     index: { x: 0, y: 0, present: false },
@@ -423,10 +425,10 @@ function setInteraction(next: Interaction, updateHash = true) {
 async function createHolisticTracker() {
   if (holisticLandmarker) return
   const { FilesetResolver, HolisticLandmarker } = await import('@mediapipe/tasks-vision')
-  const vision = visionFileset ?? await FilesetResolver.forVisionTasks('/mediapipe')
+  const vision = visionFileset ?? await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
   visionFileset = vision
   const options = {
-    baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'GPU' as const },
+    baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'GPU' as const },
     runningMode: 'VIDEO' as const,
     minFaceDetectionConfidence: .48,
     minFacePresenceConfidence: .48,
@@ -440,7 +442,7 @@ async function createHolisticTracker() {
   } catch {
     holisticLandmarker = await HolisticLandmarker.createFromOptions(vision, {
       ...options,
-      baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task' },
+      baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task` },
     })
   }
   modelReady = true
@@ -1281,8 +1283,22 @@ function catchMosquitoAt(point: Point, radius: number, now: number) {
   caught.vx = 0
   caught.vy = 0
   caught.rotation = (Math.random() - .5) * .9
+  clapBursts.push({ x: caught.x, y: caught.y, startedAt: now })
   emitBlood(caught)
   showToast('모기를 잡았어요!')
+}
+
+function flickMosquitoAt(flick: MosquitoFlick, now: number) {
+  const mosquito = mosquitoes.find((candidate) =>
+    (candidate.state === 'flying' || candidate.state === 'stunned')
+    && Math.hypot(candidate.x - flick.x, candidate.y - flick.y) < candidate.size + 42)
+  if (!mosquito) return false
+  mosquito.state = 'stunned'
+  mosquito.stateSince = now
+  mosquito.stunnedUntil = now + 950
+  mosquito.vx = flick.vx * .75
+  mosquito.vy = flick.vy * .75
+  return true
 }
 
 function blowMosquitoes(now: number) {

@@ -50,7 +50,7 @@ const permissionCopy = document.querySelector<HTMLDivElement>('#permissionCopy')
 const startCameraButton = document.querySelector<HTMLButtonElement>('#startCamera')!
 const trackingStatus = document.querySelector<HTMLDivElement>('#trackingStatus')!
 const trackingStatusText = trackingStatus.querySelector<HTMLSpanElement>('span')!
-const eraseSound = new Audio('/cam/blur%20erase.mp3')
+const eraseSound = new Audio(`${import.meta.env.BASE_URL}cam/blur%20erase.mp3`)
 eraseSound.loop = true
 eraseSound.preload = 'auto'
 eraseSound.volume = .42
@@ -541,9 +541,9 @@ function detect(now: number) {
 async function createTracker() {
   if (holisticLandmarker) return
   const { FilesetResolver, HolisticLandmarker } = await import('@mediapipe/tasks-vision')
-  const vision = await FilesetResolver.forVisionTasks('/mediapipe')
+  const vision = await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
   const options = {
-    baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'GPU' as const },
+    baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'GPU' as const },
     runningMode: 'VIDEO' as const,
     minFaceDetectionConfidence: .48,
     minFacePresenceConfidence: .48,
@@ -556,7 +556,7 @@ async function createTracker() {
   } catch {
     holisticLandmarker = await HolisticLandmarker.createFromOptions(vision, {
       ...options,
-      baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task' },
+      baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task` },
     })
   }
   modelReady = true

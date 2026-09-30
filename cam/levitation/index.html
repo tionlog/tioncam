@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f1edff" />
+    <meta name="description" content="공중부양 프로젝트" />
+    <title>공중부양 · Cam</title>
+    <style>
+      :root { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; color: #292240; background: #f1edff; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100svh; }
+      main { display: grid; min-height: 100svh; place-items: center; padding: 32px; background: radial-gradient(circle at 50% 48%, #fff 0, #eee8ff 45%, #ddd5fa 100%); }
+      a { position: absolute; top: 28px; left: 32px; padding: 10px 15px; border: 1px solid #d6cdee; border-radius: 999px; color: inherit; background: #fff9; text-decoration: none; }
+      a:focus-visible { outline: 3px solid #292240; outline-offset: 3px; }
+      section { text-align: center; }
+      .emoji { display: block; font-size: clamp(100px, 20vw, 180px); filter: drop-shadow(0 30px 18px #9081c17a); animation: float 3s ease-in-out infinite; }
+      h1 { margin: 24px 0 0; font-size: clamp(40px, 8vw, 72px); letter-spacing: -.06em; }
+      @keyframes float { 0%, 100% { transform: translateY(8px); } 50% { transform: translateY(-18px); } }
+      @media (prefers-reduced-motion: reduce) { .emoji { animation: none; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a href="%BASE_URL%cam/" aria-label="cam 목록으로 돌아가기">← cam</a>
+      <section aria-labelledby="project-title">
+        <span class="emoji" aria-hidden="true">🧘🏻‍♀️</span>
+        <h1 id="project-title">공중부양</h1>
+      </section>
+    </main>
+  </body>
+</html>

@@ -256,9 +256,9 @@ function detect(now: number) {
 async function createTracker() {
   if (holisticLandmarker) return
   const { FilesetResolver, HolisticLandmarker } = await import('@mediapipe/tasks-vision')
-  const vision = await FilesetResolver.forVisionTasks('/mediapipe')
+  const vision = await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
   const options = {
-    baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'GPU' as const },
+    baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'GPU' as const },
     runningMode: 'VIDEO' as const,
     minHandLandmarksConfidence: .52,
     minPoseDetectionConfidence: .45,
@@ -271,7 +271,7 @@ async function createTracker() {
   } catch {
     holisticLandmarker = await HolisticLandmarker.createFromOptions(vision, {
       ...options,
-      baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task' },
+      baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task` },
     })
   }
   modelReady = true

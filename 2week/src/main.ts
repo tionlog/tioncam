@@ -9,7 +9,7 @@ type ToyKind = 'bear' | 'rabbit' | 'cat' | 'duck' | 'dino'
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div class="week-layout">
     <nav class="experiment-tabs" role="tablist" aria-label="2주차 인터랙션 목록">
-      <a class="home-logo" href="/" aria-label="홈으로 이동" title="홈으로 이동">
+      <a class="home-logo" href="${import.meta.env.BASE_URL}" aria-label="홈으로 이동" title="홈으로 이동">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.7 12 3.8l8.5 6.9v8.6a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7v-8.6Z"/><path d="M9.2 21v-6.8h5.6V21"/></svg>
       </a>
       <span class="week-label">WEEK 02</span>

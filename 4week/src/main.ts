@@ -31,7 +31,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div id="stage" aria-label="한 손 또는 양손으로 얼굴을 잡아 고무처럼 늘리는 카메라 화면"></div>
 
     <header class="topbar">
-      <a class="home" href="/" aria-label="홈으로 이동">
+      <a class="home" href="${import.meta.env.BASE_URL}" aria-label="홈으로 이동">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.7 12 3.8l8.5 6.9v8.6a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7v-8.6Z"/><path d="M9.2 21v-6.8h5.6V21"/></svg>
       </a>
       <div class="title"><span>WEEK 04</span><strong>RUBBER FACE</strong></div>
@@ -574,9 +574,9 @@ function detect(now: number) {
 async function createTracker() {
   if (landmarker) return
   const { FilesetResolver, HolisticLandmarker } = await import('@mediapipe/tasks-vision')
-  const vision = await FilesetResolver.forVisionTasks('/mediapipe')
+  const vision = await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
   const options = {
-    baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'GPU' as const },
+    baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'GPU' as const },
     runningMode: 'VIDEO' as const,
     minFaceDetectionConfidence: 0.55,
     minFacePresenceConfidence: 0.55,
@@ -587,7 +587,7 @@ async function createTracker() {
   try {
     landmarker = await HolisticLandmarker.createFromOptions(vision, options)
   } catch {
-    landmarker = await HolisticLandmarker.createFromOptions(vision, { ...options, baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task' } })
+    landmarker = await HolisticLandmarker.createFromOptions(vision, { ...options, baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task` } })
   }
   modelReady = true
 }

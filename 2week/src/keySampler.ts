@@ -233,7 +233,7 @@ export function setupKeySampler(root: HTMLElement) {
       const candidates = [`${key}.wav`, `${key}.mp3`]
       for (const filename of candidates) {
         try {
-          const response = await fetch(`/samples/${filename}`)
+          const response = await fetch(`${import.meta.env.BASE_URL}samples/${filename}`)
           if (!response.ok) continue
           const decoded = await ctx.decodeAudioData(await response.arrayBuffer())
           const current = sounds.get(key)!

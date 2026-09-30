@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: process.env.GITHUB_PAGES_BASE ?? '/',
   server: {
     host: '127.0.0.1',
     strictPort: true,
@@ -22,6 +23,7 @@ export default defineConfig({
         camVortex: fileURLToPath(new URL('./cam/vortex/index.html', import.meta.url)),
         camBlur: fileURLToPath(new URL('./cam/blur/index.html', import.meta.url)),
         camTyping: fileURLToPath(new URL('./cam/typing/index.html', import.meta.url)),
+        camLevitation: fileURLToPath(new URL('./cam/levitation/index.html', import.meta.url)),
         tionweb: fileURLToPath(new URL('./tionweb/index.html', import.meta.url)),
       },
     },

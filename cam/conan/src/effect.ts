@@ -86,7 +86,7 @@ export class ConanEffect {
 
   private async load() {
     const { FilesetResolver, HolisticLandmarker, ImageSegmenter } = await import('@mediapipe/tasks-vision')
-    const vision = await FilesetResolver.forVisionTasks('/mediapipe')
+    const vision = await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
     const options = {
       runningMode: 'VIDEO' as const,
       outputPoseSegmentationMasks: true,
@@ -101,14 +101,14 @@ export class ConanEffect {
     try {
       tracker = await HolisticLandmarker.createFromOptions(vision, {
         ...options,
-        baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: this.preferCPU ? 'CPU' : 'GPU' },
+        baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: this.preferCPU ? 'CPU' : 'GPU' },
       })
     } catch (error) {
       if (this.preferCPU) throw error
       this.preferCPU = true
       tracker = await HolisticLandmarker.createFromOptions(vision, {
         ...options,
-        baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'CPU' },
+        baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'CPU' },
       })
     }
     if (this.disposed) {
@@ -120,7 +120,7 @@ export class ConanEffect {
     // Pose segmentation remains available if this optional model cannot start.
     try {
       const segmenter = await ImageSegmenter.createFromOptions(vision, {
-        baseOptions: { modelAssetPath: '/mediapipe/selfie_segmenter.tflite', delegate: 'CPU' },
+        baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/selfie_segmenter.tflite`, delegate: 'CPU' },
         runningMode: 'VIDEO',
         outputConfidenceMasks: true,
         outputCategoryMask: false,

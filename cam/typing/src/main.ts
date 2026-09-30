@@ -446,9 +446,9 @@ function render(now: number) {
 async function createTracker() {
   if (tracker) return
   const { FilesetResolver, HolisticLandmarker } = await import('@mediapipe/tasks-vision')
-  const vision = await FilesetResolver.forVisionTasks('/mediapipe')
+  const vision = await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
   const options = {
-    baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'GPU' as const },
+    baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'GPU' as const },
     runningMode: 'VIDEO' as const,
     minFaceDetectionConfidence: .45,
     minFacePresenceConfidence: .45,
@@ -463,7 +463,7 @@ async function createTracker() {
   } catch {
     tracker = await HolisticLandmarker.createFromOptions(vision, {
       ...options,
-      baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task' },
+      baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task` },
     })
   }
   modelReady = true

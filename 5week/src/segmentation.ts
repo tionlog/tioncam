@@ -7,7 +7,7 @@ let tracker: Promise<HolisticLandmarker> | undefined
 export function prepareSegmentation() {
   if (!tracker) tracker = (async () => {
     const { FilesetResolver, HolisticLandmarker } = await import('@mediapipe/tasks-vision')
-    const files = await FilesetResolver.forVisionTasks('/mediapipe')
+    const files = await FilesetResolver.forVisionTasks(`${import.meta.env.BASE_URL}mediapipe`)
     const options = {
       runningMode: 'IMAGE' as const,
       outputPoseSegmentationMasks: true,
@@ -18,7 +18,7 @@ export function prepareSegmentation() {
     // Single-photo inference favors CPU: some WebGL drivers produce empty
     // float masks even when GPU face landmark detection itself succeeds.
     return HolisticLandmarker.createFromOptions(files, {
-      ...options, baseOptions: { modelAssetPath: '/mediapipe/holistic_landmarker.task', delegate: 'CPU' },
+      ...options, baseOptions: { modelAssetPath: `${import.meta.env.BASE_URL}mediapipe/holistic_landmarker.task`, delegate: 'CPU' },
     })
   })().catch((error) => { tracker = undefined; throw error })
   return tracker

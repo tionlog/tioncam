@@ -121,6 +121,15 @@ h1 {
   transform: rotate(8deg) scale(1.04);
 }
 
+.conan-icon {
+  background: #f5ecff;
+  text-shadow: 0 0 10px #fff, 0 0 22px #c084fc;
+}
+
+.levitation-icon {
+  background: #f0edff;
+}
+
 .solar-icon {
   position: relative;
   overflow: hidden;
