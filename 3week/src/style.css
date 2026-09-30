@@ -1,0 +1,222 @@
+:root {
+  font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+  color: #232719;
+  background: #c9df9b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  min-width: 320px;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html, body { touch-action: none; }
+
+button, a { color: inherit; font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+
+.lemonade-app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(145deg, #f5d978, #b6dc8e);
+  isolation: isolate;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+#camera { position: fixed; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+#scene { width: 100%; height: 100%; display: block; transition: opacity .28s; }
+#waterScene { position: fixed; z-index: 1; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transition: opacity .28s; }
+.lemonade-app.water-mode #scene { opacity: 0; }
+.lemonade-app.water-mode #waterScene { opacity: 1; }
+.lemonade-app.water-mode.water-fallback #scene { opacity: 1; }
+.lemonade-app.water-mode.water-fallback #waterScene { opacity: 0; }
+
+.bubble-nav {
+  position: fixed;
+  z-index: 20;
+  top: max(18px, env(safe-area-inset-top));
+  right: 22px;
+  left: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.home-bubble, .bubble-tabs, .tracking-status {
+  border: 1px solid rgb(255 255 255 / 48%);
+  background: rgb(255 255 255 / 58%);
+  box-shadow: 0 10px 32px rgb(48 58 25 / 14%);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  pointer-events: auto;
+}
+
+.home-bubble {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  place-items: center;
+  border-radius: 50%;
+  transition: transform .18s, background .18s;
+}
+
+.home-bubble:hover { background: rgb(255 255 255 / 82%); transform: translateY(-2px); }
+.home-bubble:focus-visible, .bubble-tab:focus-visible, .shutter:focus-visible, #startCamera:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.home-bubble svg { width: 19px; fill: none; stroke: currentcolor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+
+.bubble-tabs { display: flex; min-width: 174px; padding: 4px; border-radius: 999px; }
+.bubble-tab { display: flex; min-height: 42px; align-items: center; gap: 10px; padding: 5px 14px 5px 7px; border: 0; border-radius: 999px; background: transparent; box-shadow: none; font-weight: 750; cursor: pointer; opacity: .6; transition: background .2s, box-shadow .2s, opacity .2s, transform .2s; }
+.bubble-tab:hover { opacity: .9; transform: translateY(-1px); }
+.bubble-tab.active { color: #232719; background: #f7e64b; box-shadow: 0 5px 14px rgb(126 111 11 / 18%); opacity: 1; }
+.bubble-tab.water-tab.active { color: #12384a; background: #8cddf2; box-shadow: 0 5px 14px rgb(24 116 144 / 24%); }
+.bubble-tab.balloon-tab.active { color: #52233b; background: #ffa6c9; box-shadow: 0 5px 14px rgb(154 37 87 / 24%); }
+.bubble-tab.mosquito-tab.active { color: #27312a; background: #d7ed8c; box-shadow: 0 5px 14px rgb(49 74 42 / 25%); }
+.bubble-tab > span:last-child { display: grid; gap: 1px; text-align: left; letter-spacing: -.025em; }
+.bubble-tab small { color: rgb(55 58 27 / 48%); font-size: 7px; font-weight: 850; letter-spacing: .12em; }
+.tab-fruit { display: grid; width: 31px; height: 31px; place-items: center; border-radius: 50%; color: #fff07a; background: #d9c81e; box-shadow: inset -4px -5px 8px rgb(96 91 8 / 16%); font-size: 16px; }
+.water-tab .tab-fruit { color: #e7fbff; background: #3fa8c9; box-shadow: inset -4px -5px 8px rgb(14 87 111 / 18%); font-size: 20px; font-weight: 900; }
+.balloon-tab .tab-fruit { color: #ffe8f2; background: #ee558e; box-shadow: inset -4px -5px 8px rgb(125 19 61 / 20%); font-size: 19px; }
+.mosquito-tab .tab-fruit { background: #667a54; box-shadow: inset -4px -5px 8px rgb(28 43 31 / 24%); font-size: 16px; }
+
+.tracking-status { display: flex; min-height: 40px; align-items: center; gap: 8px; margin-left: auto; padding: 0 15px; border-radius: 999px; color: rgb(35 39 25 / 64%); font-size: 10px; font-weight: 700; }
+.tracking-status i { width: 7px; height: 7px; border-radius: 50%; background: #9a9b8e; }
+.tracking-status.ready i { background: #77b929; box-shadow: 0 0 10px rgb(89 181 42 / 65%); }
+
+.lemonade-app.water-mode { background: #174f68; }
+.lemonade-app.water-mode .home-bubble, .lemonade-app.water-mode .bubble-tabs, .lemonade-app.water-mode .tracking-status { border-color: rgb(214 248 255 / 34%); color: #e6f9ff; background: rgb(11 50 70 / 50%); box-shadow: 0 10px 32px rgb(1 21 33 / 24%); }
+.lemonade-app.water-mode .bubble-tab { color: #d5f6ff; }
+.lemonade-app.water-mode .bubble-tab.active { color: #12384a; }
+.lemonade-app.water-mode .tracking-status { color: rgb(231 250 255 / 78%); }
+.lemonade-app.water-mode .tracking-status.ready i { background: #82e3f6; box-shadow: 0 0 10px rgb(110 225 248 / 80%); }
+
+.lemonade-app.balloon-mode { background: #44314a; }
+.lemonade-app.balloon-mode .home-bubble, .lemonade-app.balloon-mode .bubble-tabs, .lemonade-app.balloon-mode .tracking-status { border-color: rgb(255 232 244 / 42%); color: #fff2f8; background: rgb(57 29 49 / 52%); box-shadow: 0 10px 32px rgb(20 6 16 / 30%); }
+.lemonade-app.balloon-mode .bubble-tab { color: #ffeaf4; }
+.lemonade-app.balloon-mode .bubble-tab.active { color: #52233b; }
+.lemonade-app.balloon-mode .bubble-tab small { color: rgb(255 230 241 / 60%); }
+.lemonade-app.balloon-mode .tracking-status { color: rgb(255 239 247 / 78%); }
+.lemonade-app.balloon-mode .tracking-status.ready i { background: #ffb8d3; box-shadow: 0 0 10px rgb(255 138 188 / 82%); }
+
+.lemonade-app.mosquito-mode { background: #314138; }
+.lemonade-app.mosquito-mode .home-bubble, .lemonade-app.mosquito-mode .bubble-tabs, .lemonade-app.mosquito-mode .tracking-status { border-color: rgb(238 248 217 / 40%); color: #f3fae7; background: rgb(30 47 39 / 52%); box-shadow: 0 10px 32px rgb(8 18 13 / 30%); }
+.lemonade-app.mosquito-mode .bubble-tab { color: #eff8e1; }
+.lemonade-app.mosquito-mode .bubble-tab.active { color: #27312a; }
+.lemonade-app.mosquito-mode .bubble-tab small { color: rgb(239 248 225 / 59%); }
+.lemonade-app.mosquito-mode .tracking-status { color: rgb(243 250 231 / 78%); }
+.lemonade-app.mosquito-mode .tracking-status.ready i { background: #c4ed83; box-shadow: 0 0 10px rgb(187 237 111 / 78%); }
+
+.gesture-guide { position: fixed; z-index: 12; inset: 0; pointer-events: none; }
+.guide-bubble { position: absolute; top: 50%; display: flex; align-items: center; gap: 11px; padding: 10px 15px 10px 9px; border: 1px solid rgb(255 255 255 / 38%); border-radius: 999px; color: #30341e; background: rgb(255 255 255 / 37%); box-shadow: 0 10px 30px rgb(38 43 14 / 8%); backdrop-filter: blur(12px); transform: translateY(-50%); transition: opacity .3s; }
+.guide-bubble--left { left: 24px; }
+.guide-bubble--right { right: 24px; }
+.hand-icon { display: grid; width: 35px; height: 35px; place-items: center; border-radius: 50%; background: rgb(255 246 139 / 78%); font-size: 17px; }
+.guide-bubble p { display: grid; gap: 2px; margin: 0; }
+.guide-bubble b { font-size: 11px; }
+.guide-bubble small { color: rgb(44 49 26 / 55%); font-size: 8px; }
+.lemonade-app.water-mode .guide-bubble { border-color: rgb(214 248 255 / 32%); color: #e5faff; background: rgb(8 63 88 / 41%); box-shadow: 0 10px 30px rgb(0 18 31 / 18%); }
+.lemonade-app.water-mode .guide-bubble small { color: rgb(221 249 255 / 65%); }
+.lemonade-app.water-mode .hand-icon { background: rgb(124 221 244 / 36%); }
+.lemonade-app.balloon-mode .guide-bubble { border-color: rgb(255 232 244 / 35%); color: #fff4f9; background: rgb(70 30 58 / 44%); box-shadow: 0 10px 30px rgb(19 5 14 / 25%); }
+.lemonade-app.balloon-mode .guide-bubble small { color: rgb(255 226 240 / 67%); }
+.lemonade-app.balloon-mode .hand-icon { background: rgb(255 139 185 / 38%); }
+.lemonade-app.mosquito-mode .guide-bubble { border-color: rgb(238 248 217 / 33%); color: #f3fae7; background: rgb(30 54 42 / 46%); box-shadow: 0 10px 30px rgb(5 18 11 / 25%); }
+.lemonade-app.mosquito-mode .guide-bubble small { color: rgb(238 248 217 / 66%); }
+.lemonade-app.mosquito-mode .hand-icon { background: rgb(196 237 131 / 31%); }
+
+.permission-panel {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  color: #33351d;
+  background: radial-gradient(circle at 50% 38%, #fff7a6, #d5e986 45%, #a8cf76);
+  text-align: center;
+  transition: opacity .45s, visibility .45s;
+}
+
+.permission-panel::before { position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / 35%) 1px, transparent 1px); background-size: 24px 24px; content: ''; mask-image: linear-gradient(black, transparent 78%); }
+.permission-panel.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.permission-panel.compact { background: rgb(205 228 139 / 94%); }
+.permission-panel > * { position: relative; }
+.permission-illustration { width: 102px; height: 84px; margin-bottom: 22px; }
+.permission-illustration span { position: absolute; top: 7px; left: 17px; width: 68px; height: 68px; border-radius: 58% 42% 58% 42%; background: #f3da24; box-shadow: inset -11px -9px 18px rgb(127 111 1 / 15%), 0 18px 31px rgb(91 101 21 / 18%); transform: rotate(-18deg); }
+.permission-illustration::before, .permission-illustration::after { position: absolute; z-index: 1; top: 28px; width: 8px; height: 12px; border-radius: 50%; background: #31341b; content: ''; }
+.permission-illustration::before { left: 39px; }
+.permission-illustration::after { right: 39px; }
+.permission-illustration i { position: absolute; z-index: 1; top: 50px; left: 47px; width: 10px; height: 5px; border-bottom: 2px solid #31341b; border-radius: 50%; }
+.permission-kicker { margin: 0 0 13px; color: #869327; font-size: 9px; font-weight: 850; letter-spacing: .2em; }
+.permission-panel h1 { margin: 0; font-size: clamp(31px, 5vw, 52px); letter-spacing: -.06em; line-height: 1.12; }
+.permission-panel > p:not(.permission-kicker) { max-width: 480px; margin: 20px 0 28px; color: rgb(51 53 29 / 62%); font-size: 13px; line-height: 1.65; }
+#startCamera { min-width: 150px; height: 50px; border: 0; border-radius: 999px; color: white; background: #343720; box-shadow: 0 12px 25px rgb(61 66 28 / 20%); font-size: 12px; font-weight: 750; cursor: pointer; transition: transform .18s, opacity .18s; }
+#startCamera:hover { transform: translateY(-2px); }
+#startCamera:disabled { opacity: .55; cursor: wait; }
+.lemonade-app.water-mode .permission-panel { color: #123b4c; background: radial-gradient(circle at 50% 38%, #d8fbff, #8bdcef 48%, #4aa6c4); }
+.lemonade-app.water-mode .permission-kicker { color: #267994; }
+.lemonade-app.water-mode #startCamera { background: #174f68; }
+.lemonade-app.balloon-mode .permission-panel { color: #55233e; background: radial-gradient(circle at 50% 38%, #fff0f6, #ffa9ce 48%, #c75c97); }
+.lemonade-app.balloon-mode .permission-kicker { color: #b8326c; }
+.lemonade-app.balloon-mode #startCamera { background: #57233f; }
+.lemonade-app.mosquito-mode .permission-panel { color: #24332a; background: radial-gradient(circle at 50% 38%, #f4f9d2, #b8d984 48%, #648a67); }
+.lemonade-app.mosquito-mode .permission-kicker { color: #557143; }
+.lemonade-app.mosquito-mode #startCamera { background: #2c4536; }
+
+.camera-controls { position: fixed; z-index: 25; right: 0; bottom: max(18px, env(safe-area-inset-bottom)); left: 0; display: grid; justify-items: center; pointer-events: none; }
+.camera-controls p { margin: 7px 0 0; color: rgb(255 255 255 / 78%); font-size: 8px; font-weight: 700; letter-spacing: .04em; text-shadow: 0 1px 6px rgb(0 0 0 / 40%); }
+.shutter { position: relative; display: grid; width: 70px; height: 70px; place-items: center; padding: 0; border: 3px solid white; border-radius: 50%; background: rgb(20 22 14 / 15%); box-shadow: 0 4px 18px rgb(0 0 0 / 24%); cursor: pointer; pointer-events: auto; touch-action: none; transition: border-color .18s, transform .12s; }
+.shutter::after { position: absolute; inset: 5px; border: 1px solid rgb(255 255 255 / 48%); border-radius: inherit; content: ''; }
+.shutter span { width: 54px; height: 54px; border-radius: 50%; background: rgb(255 255 255 / 88%); transition: width .2s, height .2s, border-radius .2s, background .2s; }
+.shutter.pressed { transform: scale(.91); }
+.shutter:disabled { opacity: .45; cursor: wait; }
+.shutter.recording { border-color: #ff3e3e; }
+.shutter.recording span { width: 27px; height: 27px; border-radius: 7px; background: #f03030; }
+.record-time { position: absolute; bottom: 83px; padding: 5px 9px; border-radius: 999px; color: white; background: rgb(195 28 28 / 82%); font-size: 10px; font-weight: 800; font-variant-numeric: tabular-nums; opacity: 0; transform: translateY(5px); transition: .2s; }
+.record-time.visible { opacity: 1; transform: translateY(0); }
+
+.toast { position: fixed; z-index: 40; bottom: max(112px, calc(env(safe-area-inset-bottom) + 105px)); left: 50%; padding: 11px 17px; border: 1px solid rgb(255 255 255 / 42%); border-radius: 999px; color: white; background: rgb(29 31 20 / 72%); box-shadow: 0 9px 24px rgb(0 0 0 / 18%); backdrop-filter: blur(12px); font-size: 11px; font-weight: 700; opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity .2s, transform .2s; }
+.toast.visible { opacity: 1; transform: translate(-50%, 0); }
+.lemonade-app::after { position: fixed; z-index: 100; inset: 0; background: white; content: ''; opacity: 0; pointer-events: none; transition: opacity .16s; }
+.lemonade-app.flash::after { opacity: .82; transition: none; }
+
+@media (max-width: 760px) {
+  .bubble-nav { top: max(10px, env(safe-area-inset-top)); right: 12px; left: 12px; gap: 8px; }
+  .home-bubble { width: 44px; height: 44px; flex-basis: 44px; }
+  .bubble-tabs { min-width: 0; }
+  .bubble-tab { min-height: 38px; gap: 6px; padding-right: 10px; font-size: 11px; }
+  .tab-fruit { width: 29px; height: 29px; }
+  .tracking-status { min-height: 36px; padding: 0 11px; }
+  .tracking-status span { display: none; }
+  .guide-bubble { top: auto; bottom: 104px; padding: 7px; }
+  .guide-bubble--left { left: 12px; }
+  .guide-bubble--right { right: 12px; }
+  .guide-bubble p { display: none; }
+  .hand-icon { width: 34px; height: 34px; }
+  .shutter { width: 64px; height: 64px; }
+  .shutter span { width: 49px; height: 49px; }
+}
+
+@media (max-width: 510px) {
+  .bubble-tabs { gap: 2px; }
+  .bubble-tab { padding: 4px; }
+  .bubble-tab > span:last-child { display: none; }
+  .tracking-status { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; }
+}

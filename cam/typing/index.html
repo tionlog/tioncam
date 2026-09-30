@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111111" />
+    <meta name="description" content="카메라 속 인물 뒤에 문장을 배치하는 타이포그래피 인터랙션" />
+    <title>typing · Cam</title>
+  </head>
+  <body>
+    <main class="typing-app">
+      <video id="camera" muted playsinline aria-hidden="true"></video>
+      <canvas id="typeCanvas" aria-hidden="true"></canvas>
+      <canvas id="personCanvas" aria-hidden="true"></canvas>
+      <div class="camera-shade" aria-hidden="true"></div>
+
+      <header class="camera-header">
+        <a class="back-link" href="/cam/" aria-label="cam 목록으로 돌아가기">← cam</a>
+        <div class="tracking-status" id="trackingStatus" role="status" aria-live="polite">
+          <i></i><span>카메라 준비 중</span>
+        </div>
+      </header>
+
+      <form class="type-controls" id="typeControls" autocomplete="off">
+        <label class="color-chip" aria-label="텍스트 색상 선택">
+          <input id="textColor" type="color" value="#ffffff" />
+          <span aria-hidden="true"></span>
+        </label>
+        <label class="text-field">
+          <span class="sr-only">배경에 표시할 텍스트</span>
+          <input
+            id="textInput"
+            type="text"
+            value="입력해보세요"
+            maxlength="12"
+            enterkeyhint="done"
+            aria-describedby="characterCount"
+          />
+          <output id="characterCount" for="textInput">6/12</output>
+        </label>
+      </form>
+
+      <section class="permission-panel" id="permissionPanel" aria-live="polite">
+        <span class="permission-icon" aria-hidden="true">T</span>
+        <p>TYPING</p>
+        <h1>당신 뒤에 문장을 놓아보세요</h1>
+        <div class="permission-copy" id="permissionCopy">검지 스와이프와 박수 동작을 인식할 수 있도록 카메라 권한을 허용해 주세요.</div>
+        <button id="startCamera" type="button">카메라 시작하기</button>
+      </section>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

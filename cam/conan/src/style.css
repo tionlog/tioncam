@@ -1,0 +1,159 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+  color: #fff;
+  background: #08090b;
+  font-synthesis: none;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button { font: inherit; }
+
+.camera-app {
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #08090b;
+}
+
+#camera {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #08090b;
+}
+
+#camera.mirrored { transform: scaleX(-1); }
+
+#conanEffect,
+#conanCostume {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.camera-header {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: max(18px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) 32px max(20px, env(safe-area-inset-left));
+  background: linear-gradient(rgb(0 0 0 / 45%), transparent);
+}
+
+.wordmark { font-size: 18px; font-weight: 700; letter-spacing: -.04em; }
+.status { font-size: 12px; text-shadow: 0 1px 4px #000; }
+.status::before {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #a1a1aa;
+  content: '';
+}
+.status.live::before { background: #a3e635; }
+
+.control {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 17px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 999px;
+  color: #fff;
+  background: rgb(8 9 11 / 65%);
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+button:disabled { opacity: .45; cursor: default; }
+button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
+.control:hover:not(:disabled) { background: rgb(40 42 46 / 85%); }
+
+.permission-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(440px, calc(100% - 40px));
+  max-height: calc(100% - 180px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: auto;
+  padding: 28px 24px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 24px;
+  background: rgb(15 17 20 / 94%);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.eyebrow { margin: 0 0 20px; color: #a1a1aa; font-size: 10px; letter-spacing: .2em; }
+h1 { margin: 0; font-size: clamp(20px, 5vw, 28px); letter-spacing: -.055em; }
+#permissionCopy { margin: 16px 0 24px; color: #b7b8bf; font-size: 14px; line-height: 1.7; word-break: keep-all; }
+.start-button {
+  min-height: 48px;
+  padding: 12px 25px;
+  border: 0;
+  border-radius: 999px;
+  color: #08090b;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.camera-controls {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px max(20px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  background: linear-gradient(transparent, rgb(0 0 0 / 45%));
+}
+
+.camera-buttons { display: flex; justify-content: center; gap: 10px; }
+.gesture-guide { display: grid; justify-items: center; gap: 10px; max-width: 360px; text-align: center; }
+#gestureStatus {
+  padding: 8px 14px;
+  border-radius: 18px;
+  color: #e1e8f8;
+  background: rgb(8 9 11 / 70%);
+  font-size: 12px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+.gesture-guide[data-active='true'] #gestureStatus { color: #d6f7ff; background: rgb(3 26 81 / 85%); }
+.tracking-hint {
+  padding: 5px 10px;
+  border-radius: 12px;
+  color: #fff;
+  background: rgb(8 9 11 / 75%);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.noscript { position: absolute; inset: 40% 20px auto; padding: 20px; background: #08090b; text-align: center; }
+
+@media (max-height: 480px) {
+  .permission-panel { padding: 16px; max-height: calc(100% - 140px); }
+  .eyebrow { display: none; }
+  #permissionCopy { margin: 8px 0 12px; }
+  .camera-header { padding-top: max(8px, env(safe-area-inset-top)); }
+  .camera-controls { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+}

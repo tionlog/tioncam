@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090a0d" />
+    <meta name="description" content="손짓으로 얼굴을 회전시키는 카메라 인터랙션" />
+    <title>face 😵‍💫 · Cam</title>
+  </head>
+  <body>
+    <main class="face-app">
+      <video id="camera" muted playsinline aria-hidden="true"></video>
+      <div id="globeLayer" aria-hidden="true"></div>
+
+      <header class="camera-header">
+        <a class="back-link" href="/cam/" aria-label="cam 목록으로 돌아가기">← cam</a>
+        <div class="tracking-status" id="trackingStatus" role="status" aria-live="polite">
+          <i></i><span>카메라 준비 중</span>
+        </div>
+      </header>
+
+      <aside class="gesture-guide" aria-label="사용 방법">
+        <p><span aria-hidden="true">✋</span><b>손바닥 펼치기</b><small>헬멧 앞면 덮개를 닫아요</small></p>
+        <p><span aria-hidden="true">☝️</span><b>검지를 움직이기</b><small>닫힌 헬멧 전체를 회전해요</small></p>
+        <p><span aria-hidden="true">✊</span><b>주먹 쥐기</b><small>회전 정지 · 덮개 열기</small></p>
+      </aside>
+
+      <section class="permission-panel" id="permissionPanel" aria-live="polite">
+        <span class="permission-icon" aria-hidden="true">😵‍💫</span>
+        <p>FACE CAMERA</p>
+        <h1>헬멧 앞면을 닫고 회전해보세요</h1>
+        <div class="permission-copy" id="permissionCopy">카메라에서 얼굴과 양손을 인식할 수 있도록 권한을 허용해 주세요.</div>
+        <button id="startCamera" type="button">카메라 시작하기</button>
+      </section>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

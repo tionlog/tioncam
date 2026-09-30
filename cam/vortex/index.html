@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#03040d" />
+    <meta name="description" content="손 안에서 회전하는 지구 소용돌이 카메라 인터랙션" />
+    <title>vortex · Cam</title>
+  </head>
+  <body>
+    <main class="vortex-app">
+      <video id="camera" muted playsinline aria-hidden="true"></video>
+      <div class="camera-shade" aria-hidden="true"></div>
+      <canvas id="vortexCanvas" aria-hidden="true"></canvas>
+
+      <div class="vortex-object hidden" id="vortexObject" aria-hidden="true">
+        <div class="orb-aura"></div>
+        <div class="orb-float" id="orbFloat">
+          <div class="earth-sphere">
+            <img id="earthImage" src="/cam/solar/earth.gif" alt="" />
+            <span class="sphere-glass"></span>
+          </div>
+          <span class="energy-band energy-band--one"></span>
+          <span class="energy-band energy-band--two"></span>
+          <span class="energy-band energy-band--three"></span>
+        </div>
+      </div>
+
+      <header class="camera-header">
+        <a class="back-link" href="/cam/" aria-label="cam 목록으로 돌아가기">← cam</a>
+        <div class="tracking-status" id="trackingStatus" role="status" aria-live="polite">
+          <i></i><span>카메라 준비 중</span>
+        </div>
+      </header>
+
+      <aside class="gesture-guide" aria-label="사용 방법">
+        <p><span aria-hidden="true">🫴</span><b>한 손을 펼쳐보세요</b><small>손 안에 지구가 떠올라요</small></p>
+        <p><span aria-hidden="true">🤌</span><b>손을 천천히 오므려요</b><small>회전과 스파크가 강해져요</small></p>
+      </aside>
+
+      <section class="permission-panel" id="permissionPanel" aria-live="polite">
+        <span class="permission-icon" aria-hidden="true">🌀</span>
+        <p>VORTEX</p>
+        <h1>손 안에 소용돌이를 만들어보세요</h1>
+        <div class="permission-copy" id="permissionCopy">손의 움직임을 인식할 수 있도록 카메라 권한을 허용해 주세요.</div>
+        <button id="startCamera" type="button">카메라 시작하기</button>
+      </section>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

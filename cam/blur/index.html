@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111317" />
+    <meta name="description" content="양손의 검지 끝으로 카메라의 블러를 지우는 인터랙션" />
+    <title>blur · Cam</title>
+  </head>
+  <body>
+    <main class="blur-app">
+      <video id="camera" muted playsinline aria-hidden="true"></video>
+      <canvas id="revealCanvas" aria-hidden="true"></canvas>
+      <div class="camera-vignette" aria-hidden="true"></div>
+
+      <header class="camera-header">
+        <a class="back-link" href="/cam/" aria-label="cam 목록으로 돌아가기">← cam</a>
+        <div class="tracking-status" id="trackingStatus" role="status" aria-live="polite">
+          <i></i><span>카메라 준비 중</span>
+        </div>
+      </header>
+
+      <aside class="gesture-guide" aria-label="사용 방법">
+        <p><span aria-hidden="true">☝️☝️</span><b>손바닥 쪽 검지를 움직여요</b><small>손등이 아닌 손바닥 면의 검지만 인식해요</small></p>
+        <p><span aria-hidden="true">😗</span><b>입술을 오므려 호—</b><small>지운 자리에 블러가 다시 차올라요</small></p>
+      </aside>
+
+      <section class="permission-panel" id="permissionPanel" aria-live="polite">
+        <span class="permission-icon" aria-hidden="true"><i></i></span>
+        <p>BLUR</p>
+        <h1>손끝으로 흐림을 걷어내세요</h1>
+        <div class="permission-copy" id="permissionCopy">양손과 입술의 움직임을 인식할 수 있도록 카메라 권한을 허용해 주세요.</div>
+        <button id="startCamera" type="button">카메라 시작하기</button>
+      </section>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
