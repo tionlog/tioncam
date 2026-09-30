@@ -24,7 +24,6 @@ export default defineConfig({
         camBlur: fileURLToPath(new URL('./cam/blur/index.html', import.meta.url)),
         camTyping: fileURLToPath(new URL('./cam/typing/index.html', import.meta.url)),
         camLevitation: fileURLToPath(new URL('./cam/levitation/index.html', import.meta.url)),
-        tionweb: fileURLToPath(new URL('./tionweb/index.html', import.meta.url)),
       },
     },
   },

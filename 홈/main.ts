@@ -7,11 +7,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </header>
 
     <nav class="project-list" aria-label="작업 목록">
-      <a class="project-link" href="${import.meta.env.BASE_URL}tionweb/" aria-label="tionweb 열기">
-        <span class="project-icon project-icon--tion" aria-hidden="true">🌀</span>
-        <strong>tionweb</strong>
-      </a>
-
       <a class="project-link" href="${import.meta.env.BASE_URL}1week/" aria-label="1주차 작업 열기">
         <span class="project-icon" aria-hidden="true">
           <span class="folder folder--coral">

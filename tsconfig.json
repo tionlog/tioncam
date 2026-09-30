@@ -20,5 +20,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["홈", "1week/src", "2week/src", "3week/src", "4week/src", "5week/src", "tionweb/src", "cam/conan/src"]
+  "include": ["홈", "1week/src", "2week/src", "3week/src", "4week/src", "5week/src", "cam/conan/src"]
 }
